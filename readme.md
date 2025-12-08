@@ -6,6 +6,9 @@ This template wraps the functionality of the "Simple Loader 1" example provided 
 
 This project follows the design patterns established by [BOF-VS](https://github.com/Cobalt-Strike/bof-vs). While the loader is fundamentally C code, this template compiles it using a C++ compiler with `extern "C"` blocks. This enables the use of **DFR (Dynamic Function Resolution)** macros and other modern conveniences while maintaining the structure required for reflective loading.
 
+![img.png](img.png)
+
+
 ## Prerequisites
 
 To use this template effectively, you require the following tools:
