@@ -98,7 +98,7 @@ When you select the **Release** profile in CLion:
 
 
 
-### Adding Your Code
+### 3. Adding Your Code
 For now, additionall .cpp files should __*not*__ be added to `CMakeLists.txt`. Instead, they should be added as stand-alone `.cpp` files and included in `main.cpp` using `#include "your_file.cpp"`.
 
 ## Customizing loader.spec
