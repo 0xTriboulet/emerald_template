@@ -76,9 +76,8 @@ When you select the **Debug** profile in CLion:
 5.  External function resolution (e.g., `VirtualAlloc`) is macro-switched to use local imports instead of the hashed resolution used in the final shellcode.
 
 **Changing the Target DLL:**
-If you change the `DLL_PATH` in CMake or modify the target DLL, you must manually delete `debug.h` or re-run `loader.py` to ensure the bytes in the header match your new DLL.
+If you change the `DLL_PATH` in CMake or modify the target DLL, you must manually delete `debug.h` or re-run `loader.py` to ensure the bytes in the header match your new DLL. You must also update `loader.spec` to use your new DLL path.
 
-6. CLion should automati
 ```shell script
 python loader.py path/to/your/new.dll
 ```
