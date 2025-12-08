@@ -1,5 +1,3 @@
-Here is the README.md for your project.
-
 # emerald-template
 
 **emerald-template** is a CMake-based project template designed for developing and debugging Reflective DLL Loaders using the **Crystal Palace** linker.
