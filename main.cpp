@@ -28,15 +28,21 @@
 // The original copyright notice above. Some modifications made for exe debugging
 
 #include <windows.h>
-#include "tcg/libtcg/src/tcg.h"
+#include "helpers.h"
 
 #ifdef _DEBUG
 #include "debug.h"
 #define go() WinMain(struct HINSTANCE__ *, struct HINSTANCE__ *, CHAR *, int) // Entry point shenanigans
 #else
-WINBASEAPI LPVOID WINAPI KERNEL32$VirtualAlloc (LPVOID lpAddress, SIZE_T dwSize, DWORD flAllocationType, DWORD flProtect);
+DFR(KERNEL32, VirtualAlloc)
 #define VirtualAlloc KERNEL32$VirtualAlloc
 #endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+/* Gotta include this one inside the 'extern "C"' blocks */
+#include "tcg/libtcg/src/tcg.h"
 
 /*
  * This is our opt-in Dynamic Function Resolution resolver. It turns MODULE$Function into pointers.
@@ -102,3 +108,8 @@ int go() {
 
 	return 0;
 }
+
+#ifdef __cplusplus
+}
+#endif
+

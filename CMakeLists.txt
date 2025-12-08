@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 4.0)
 set(CMAKE_C_COMPILER "x86_64-w64-mingw32-gcc")
 set(CMAKE_CXX_COMPILER "x86_64-w64-mingw32-g++")
-project(emerald_template C)
+project(emerald_template CXX)
 
 # Turn off optimization globally for all build types
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -Wall -Wno-pointer-arith")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -Wall -Wno-pointer-arith")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -Wall -Wno-implicit-int -Wno-pointer-arith")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -Wall -Wno-implicit-int -Wno-pointer-arith -fpermissive")
 
 set(CMAKE_C_STANDARD 99)
 
@@ -49,28 +49,29 @@ else()
     set(DEBUG_H_SIZE 0)
 endif()
 
-# Check for debug.h header
-if(DEBUG_H_SIZE LESS_EQUAL 10)
-    message(WARNING "debug.h is empty or does not exist!")
-
-    # Check for python version
-    find_package(Python3 COMPONENTS Interpreter)
-
-    if(Python3_Interpreter_FOUND)
-        execute_process(
-                # setup debug.h
-                COMMAND ${Python3_EXECUTABLE} loader.py ${DLL_PATH}
-                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-        )
-    else()
-        message(FATAL_ERROR "Python3 is required to generate debug.h but was not found.")
-    endif()
-else()
-    # debug.h header already contains something
-    message(STATUS "debug.h has content (size: ${DEBUG_H_SIZE} bytes)")
-endif()
-
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+
+    # Check for debug.h header
+    if(DEBUG_H_SIZE LESS_EQUAL 10)
+        message(WARNING "debug.h is empty or does not exist!")
+
+        # Check for python version
+        find_package(Python3 COMPONENTS Interpreter)
+
+        if(Python3_Interpreter_FOUND)
+            execute_process(
+                    # setup debug.h
+                    COMMAND ${Python3_EXECUTABLE} loader.py ${DLL_PATH}
+                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            )
+        else()
+            message(FATAL_ERROR "Python3 is required to generate debug.h but was not found.")
+        endif()
+    else()
+        # debug.h header already contains something
+        message(STATUS "debug.h has content (size: ${DEBUG_H_SIZE} bytes)")
+    endif()
+
     # Create the output directory for the custom object
     file(MAKE_DIRECTORY "${CMAKE_SOURCE_DIR}/debug-dependencies/bin")
 
@@ -97,7 +98,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     # Mark as generated so CMake doesn't fail if they don't exist yet
     set_source_files_properties(${DBG_OBJS} ${TCG_OBJS} PROPERTIES GENERATED TRUE)
 
-    add_executable(emerald_template main.c ${TCG_OBJS})
+    add_executable(emerald_template main.cpp ${TCG_OBJS})
 
     # Set the entry point for the CRT
     target_link_options(emerald_template PRIVATE "-Wl,-e,WinMain")
@@ -105,7 +106,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_definitions(emerald_template PRIVATE _DEBUG)
 
 else()
-    add_library(emerald_template OBJECT main.c)
+    add_library(emerald_template OBJECT main.cpp)
 
     # Disable optimizations specifically for emerald_template object library
     target_compile_options(emerald_template PRIVATE -O0)
