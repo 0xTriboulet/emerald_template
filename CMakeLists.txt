@@ -28,7 +28,6 @@ endif()
 set(LOADER_SPEC "loader.spec")
 set(DLL_PATH "crystal-palace/demo/test.${ARCH_EXT}.dll")
 
-
 # Build libtcg (the loader example uses this)
 add_custom_target(libtcg_make
         COMMAND ${MAKE_CMD}
@@ -59,8 +58,8 @@ if(DEBUG_H_SIZE LESS_EQUAL 10)
 
     if(Python3_Interpreter_FOUND)
         execute_process(
-                # use the test.dll by default
-                COMMAND ${Python3_EXECUTABLE} loader.py crystal-palace/demo/test.${ARCH_EXT}.dll
+                # setup debug.h
+                COMMAND ${Python3_EXECUTABLE} loader.py ${DLL_PATH}
                 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         )
     else()
@@ -130,7 +129,7 @@ else()
         # Create a custom target that copies and links - this becomes the main build target
         add_custom_target(build_loader ALL
                 COMMAND ${CMAKE_COMMAND} -E copy "${OBJ_FILE}" "${CMAKE_SOURCE_DIR}/bin/${OUTPUT_OBJ}"
-                COMMAND wsl DLL=${WSL_SOURCE_DIR}/${DLL_PATH} bash -lc "cd ${WSL_SOURCE_DIR} &&  ${WSL_SOURCE_DIR}/crystal-palace/link ${WSL_SOURCE_DIR}/${LOADER_SPEC} ${WSL_SOURCE_DIR}/bin/${OUTPUT_OBJ} ${WSL_SOURCE_DIR}/bin/loader.${ARCH_EXT}.o"
+                COMMAND wsl bash -lc "cd ${WSL_SOURCE_DIR} &&  ${WSL_SOURCE_DIR}/crystal-palace/link ${WSL_SOURCE_DIR}/${LOADER_SPEC} ${WSL_SOURCE_DIR}/bin/${OUTPUT_OBJ} ${WSL_SOURCE_DIR}/bin/loader.${ARCH_EXT}.o"
                 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
                 COMMENT "Copying object file and linking final loader"
                 DEPENDS emerald_template

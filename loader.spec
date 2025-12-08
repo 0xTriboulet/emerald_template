@@ -3,10 +3,9 @@
 #
 x86:
 
-    set "%DLL" "crystal-palace/demo/test.x86.dll"
-
 	# load our x86 .o file AND turn it into position-independent code
-	load "bin/loader.x86.o"
+	# CHANGE THIS TO YOUR DLL
+    load "crystal-palace/demo/test.x86.dll"
 		# +gofirst moves go() to position 0 of our PIC
 		make pic +gofirst
 
@@ -27,7 +26,6 @@ x86:
 		export
 
 x64:
-    set "%DLL" "crystal-palace/demo/test.x64.dll"
 
 	load "bin/loader.x64.o"
 		make pic +gofirst
@@ -35,7 +33,8 @@ x64:
 		dfr "resolve" "ror13"
 		mergelib "tcg/libtcg/libtcg.x64.zip"
 
-		load "/mnt/c/Users/0xtriboulet/Desktop/MalDev/emerald-template/crystal-palace/demo/test.x64.dll"
+        # CHANGE THIS TO YOUR DLL
+		load "crystal-palace/demo/test.x64.dll"
 			link "my_data"
 	
 		export

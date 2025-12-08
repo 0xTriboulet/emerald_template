@@ -30,7 +30,6 @@
 #include <windows.h>
 #include "tcg/libtcg/src/tcg.h"
 
-
 #ifdef _DEBUG
 #include "debug.h"
 #define go() WinMain(struct HINSTANCE__ *, struct HINSTANCE__ *, CHAR *, int) // Entry point shenanigans
