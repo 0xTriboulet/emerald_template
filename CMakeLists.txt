@@ -4,7 +4,7 @@ set(CMAKE_CXX_COMPILER "x86_64-w64-mingw32-g++")
 project(emerald_template CXX)
 
 # Turn off optimization globally for all build types
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -Wall -Wno-implicit-int -Wno-pointer-arith")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -Wall -Wno-pointer-arith")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -Wall -Wno-implicit-int -Wno-pointer-arith -fpermissive")
 
 set(CMAKE_C_STANDARD 99)
@@ -49,28 +49,28 @@ else()
     set(DEBUG_H_SIZE 0)
 endif()
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+# Check for debug.h header
+if(DEBUG_H_SIZE LESS_EQUAL 10)
+    message(WARNING "debug.h is empty or does not exist!")
 
-    # Check for debug.h header
-    if(DEBUG_H_SIZE LESS_EQUAL 10)
-        message(WARNING "debug.h is empty or does not exist!")
+    # Check for python version
+    find_package(Python3 COMPONENTS Interpreter)
 
-        # Check for python version
-        find_package(Python3 COMPONENTS Interpreter)
-
-        if(Python3_Interpreter_FOUND)
-            execute_process(
-                    # setup debug.h
-                    COMMAND ${Python3_EXECUTABLE} loader.py ${DLL_PATH}
-                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-            )
-        else()
-            message(FATAL_ERROR "Python3 is required to generate debug.h but was not found.")
-        endif()
+    if(Python3_Interpreter_FOUND)
+        execute_process(
+                # setup debug.h
+                COMMAND ${Python3_EXECUTABLE} loader.py ${DLL_PATH}
+                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        )
     else()
-        # debug.h header already contains something
-        message(STATUS "debug.h has content (size: ${DEBUG_H_SIZE} bytes)")
+        message(FATAL_ERROR "Python3 is required to generate debug.h but was not found.")
     endif()
+else()
+    # debug.h header already contains something
+    message(STATUS "debug.h has content (size: ${DEBUG_H_SIZE} bytes)")
+endif()
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
     # Create the output directory for the custom object
     file(MAKE_DIRECTORY "${CMAKE_SOURCE_DIR}/debug-dependencies/bin")
