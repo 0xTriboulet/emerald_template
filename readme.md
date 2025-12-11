@@ -107,6 +107,9 @@ The `loader.spec` file controls how Crystal Palace links your object files. Ensu
 
 If you wish to pass the DLL path dynamically during the Release build, ensure your `loader.spec` relative paths to your DLL. Using a different DLL requires updating the paths in `loader.spec`. This is a limitation of passing environment variables to WSL that I could not figure out how to overcome.
 
+## License
+MIT or Apache 2.0. Enjoy.
+
 ## Credits
 
 *   **Raphael Mudge**: For Crystal Palace and the Tradecraft Garden examples.
