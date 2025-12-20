@@ -1,5 +1,5 @@
 # emerald-template
-___
+
 **emerald-template** is a CMake-based project template designed for developing and debugging Reflective DLL Loaders using the **Crystal Palace** linker.
 
 This template wraps the functionality of the "Simple Loader 1" example provided by the Tradecraft Garden. It transforms the standard makefile-based workflow into a **CLion-compatible** project. This allows for source-code level debugging of your loader logic from **Windows** (and theoretically Linux) systems before compiling the final position-independent shellcode.
@@ -9,7 +9,7 @@ This project follows the design patterns established by [BOF-VS](https://github.
 ![img.png](img.png)
 
 ## Prerequisites
-___
+
 To use this template effectively, you require the following tools:
 
 *   **CLion**: [Download Here](https://www.jetbrains.com/clion/download/?section=windows). This is the primary IDE for this template.
@@ -19,7 +19,7 @@ To use this template effectively, you require the following tools:
 *   **Python 3**: Required for the helper script that converts your target DLL into a C header for debugging.
 
 ## Setup
-___
+
 #### **Important:** Crystal Palace is not released on public git platforms. Consequently, it cannot be included as a submodule in this repository. You must download the necessary files and arrange them manually.
 
 1.  Clone this repository:
@@ -67,7 +67,7 @@ C:.
 └───src
 ```
 ## Usage
-___
+
 This template is designed to handle two distinct workflows: **Debugging** (creating an EXE) and **Building** (creating the reflective loader object).
 
 ### Configuration
@@ -112,7 +112,7 @@ For now, additional `.cpp` files should **NOT** be added to `CMakeLists.txt`. In
 #include "your_file.cpp"
 ```
 ## Use DFR or not?
-___
+
 This template supports **Dynamic Function Resolution (DFR)** API decleration and usage, but also supports injection DFR definitions from the `loader.spec` file thanks to [this sick project](https://github.com/Henkru/cp-dfr-defs).
 
 This template compiles the loader as C++ and wraps the loader entry points in `extern "C"` so that:
@@ -134,7 +134,7 @@ This template compiles the loader as C++ and wraps the loader entry points in `e
   * The final object is fully position‑independent and uses resolution according to your `.spec` configuration.
 
 ## CLion Release Run Configuration (Running the Shellcode Build)
-___
+
 By default, CLion is well‑suited for running the **Debug** executable, but Release builds in this template produce an **object file** (PIC shellcode), not an EXE. To run/test the Release output directly from CLion, you can add a dedicated Run/Debug configuration that uses an external **shellcode runner**.
 
 ![img_1.png](img_1.png)
@@ -180,17 +180,17 @@ You can use any equivalent runner that accepts a `.o`/shellcode blob and execute
 
 
 ## Customizing loader.spec
-___
+
 The `loader.spec` file controls how Crystal Palace links your object files. Ensure the paths in this file match your project structure.
 
 If you wish to pass the DLL path dynamically during the Release build, ensure your `loader.spec` uses relative paths to your DLL. Using a different DLL requires updating the paths in `loader.spec`. This is a limitation of passing environment variables to WSL that has not been fully worked around yet.
 
 ## License
-___
+
 MIT or Apache 2.0. Enjoy.
 
 ## Credits
-___
+
 *   **Raphael Mudge**: For Crystal Palace and the Tradecraft Garden examples.
 *   **Cobalt Strike / Fortra**: For the BOF-VS and UDRL-VS pattern that inspired this template's structure.
 *   **Henri Nurmi**: For the `cp-dfr-defs` project that facilitates DFR definition injection.
