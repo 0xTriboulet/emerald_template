@@ -71,8 +71,7 @@ This template is designed to handle two distinct workflows: **Debugging** (creat
 ### Configuration
 
 The target DLL and build specification are controlled in `CMakeLists.txt`.
-```
-cmake
+```cmake
 set(LOADER_SPEC "loader.spec")
 set(DLL_PATH "crystal-palace/demo/test.${ARCH_EXT}.dll")
 ```
