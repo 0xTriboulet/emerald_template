@@ -45,7 +45,6 @@ To use this template effectively, you require the following tools:
 
 Organize your project folder to match the following structure exactly. You will need to copy the `crystal-palace` binary folder and the `tcg` source folder into the project root.
 ```
-plain text
 emerald-template>tree
 Folder PATH listing for volume Windows
 Volume serial number is 5048-32BA
