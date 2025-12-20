@@ -101,7 +101,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_executable(emerald_template main.cpp ${TCG_OBJS})
 
     # Set the entry point for the CRT
-    target_link_options(emerald_template PRIVATE "-Wl,-e,WinMain")
+    target_link_options(emerald_template PRIVATE "-Wl,-e,WinMain -fpermissive")
+
     # Add -D_DEBUG
     target_compile_definitions(emerald_template PRIVATE _DEBUG)
 
@@ -118,7 +119,7 @@ else()
     set(OUTPUT_OBJ "loader.${ARCH_EXT}.o")
 
     # Get the actual object file path from the build directory
-    set(OBJ_FILE "${CMAKE_BINARY_DIR}/CMakeFiles/emerald_template.dir/main.c.obj")
+    set(OBJ_FILE "${CMAKE_BINARY_DIR}/CMakeFiles/emerald_template.dir/main.cpp.obj")
 
     if(CMAKE_HOST_WIN32)
         # Convert Windows path to WSL path format

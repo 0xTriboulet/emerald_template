@@ -33,7 +33,7 @@
 #ifdef _DEBUG
 #include "debug.h"
 #define go() WinMain(struct HINSTANCE__ *, struct HINSTANCE__ *, CHAR *, int) // Entry point shenanigans
-#else
+#else // Using DFR macros is possible if that pattern is desired
 DFR(KERNEL32, VirtualAlloc)
 #define VirtualAlloc KERNEL32$VirtualAlloc
 #endif
@@ -91,7 +91,8 @@ int go() {
 	ParseDLL(src, &data);
 
 	/* allocate memory for it! */
-	dst = VirtualAlloc( NULL, SizeOfDLL(&data), MEM_RESERVE|MEM_COMMIT, PAGE_EXECUTE_READWRITE );
+	// Note that there's no DFR for VirtualAllocEx or GetCurrentProcess, the .spec file handles this with some magic. See https://github.com/Henkru/cp-dfr-defs/tree/main
+	dst = VirtualAllocEx(GetCurrentProcess(), NULL, SizeOfDLL(&data), MEM_RESERVE|MEM_COMMIT, PAGE_EXECUTE_READWRITE );
 
 	/* load the damned thing */
 	LoadDLL(&data, src, dst);

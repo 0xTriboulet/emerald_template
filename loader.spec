@@ -5,7 +5,7 @@ x86:
 
 	# load our x86 .o file AND turn it into position-independent code
 	# CHANGE THIS TO YOUR DLL
-    load "crystal-palace/demo/test.x86.dll"
+    load "bin/loader.x86.o"
 		# +gofirst moves go() to position 0 of our PIC
 		make pic +gofirst
 
@@ -19,9 +19,12 @@ x86:
 		mergelib "tcg/libtcg/libtcg.x86.zip"
 
 		# load our Reflective DLL argument AND link it into our PIC as my_data section
-		push $DLL
+		push "crystal-palace/demo/test.x86.dll"
 			link "my_data"
-	
+
+	    # use cp-dfr-specs to auto-convert APIs to DFR
+        run "deps/dfr_windows.spec"
+
 		# we're done, export the final blob
 		export
 
@@ -36,5 +39,8 @@ x64:
         # CHANGE THIS TO YOUR DLL
 		load "crystal-palace/demo/test.x64.dll"
 			link "my_data"
-	
+
+        # use cp-dfr-specs to auto-convert APIs to DFR
+        run "deps/dfr_windows.spec"
+
 		export
