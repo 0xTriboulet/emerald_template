@@ -59,12 +59,11 @@ C:.
 ├───debug-dependencies
 │   └───bin
 ├───tcg
-├───libtcg
-│   ├───bin
-│   └───src
+│  └───libtcg
+│      ├───bin
+│      └───src
 ...snip...
-└───simple_rdll_patch
-└───src
+└───CMakeLists.txt
 ```
 ## Usage
 
